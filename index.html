@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5a6c8">
+  <meta name="description" content="Novidades e vídeos do canal Universo Verade.">
+  <title>Universo Verade</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.png">
+  <style>
+    :root { --rosa:#f5a6c8; --rosa-escuro:#d94f8a; --verde:#168b4b; --fundo:#fff9fc; --texto:#202020; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial,sans-serif; color:var(--texto); background:var(--fundo); }
+    header { padding:14px 6%; background:#fff; border-bottom:3px solid var(--rosa); display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .marca { display:flex; align-items:center; gap:10px; font-weight:bold; font-size:1.15rem; }
+    .marca img { width:48px; height:48px; object-fit:contain; border-radius:50%; }
+    nav { display:flex; gap:16px; flex-wrap:wrap; }
+    nav a { color:var(--texto); text-decoration:none; font-weight:bold; }
+    nav a:hover { color:var(--rosa-escuro); }
+    main { width:min(900px,92%); margin:32px auto; }
+    .destaque { padding:42px 22px; text-align:center; border-radius:24px; background:linear-gradient(135deg,#ffe3ef,#e8f5e9); }
+    h1 { font-size:clamp(2rem,6vw,3rem); }
+    .destaque p { line-height:1.6; }
+    .botoes { display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-top:22px; }
+    .botao { display:inline-block; border:0; border-radius:999px; padding:13px 18px; color:white; text-decoration:none; font-weight:bold; cursor:pointer; }
+    .youtube { background:#d93025; } .whatsapp { background:var(--verde); } .instalar { background:var(--rosa-escuro); }
+    .secao { margin-top:24px; padding:24px; background:white; border-radius:18px; box-shadow:0 5px 18px #0000000d; }
+    .secao h2 { color:var(--rosa-escuro); }
+    .novidade { padding:14px; margin:12px 0; border-left:5px solid var(--rosa); border-radius:8px; background:#fff1f7; }
+    .data { display:block; margin-top:8px; color:#666; font-size:.9rem; }
+    footer { padding:22px; text-align:center; color:white; background:var(--texto); }
+    @media(max-width:600px) { header { flex-direction:column; } nav { justify-content:center; } .secao { padding:18px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="marca"><img src="logo.png" alt="Logo do Universo Verade"><span>Universo Verade</span></div>
+    <nav aria-label="Navegação"><a href="#inicio">Início</a><a href="#novidades">Novidades</a><a href="#comunidade">Comunidade</a></nav>
+  </header>
+  <main id="inicio">
+    <section class="destaque">
+      <h1>Bem-vindo ao Universo Verade! ✨</h1>
+      <p>Acompanhe os vídeos e fique por dentro das novidades do canal.</p>
+      <div class="botoes">
+        <a class="botao youtube" href="https://youtube.com/@universo_verade_oficial?si=j8S0bvBNg0j08s-2" target="_blank" rel="noopener noreferrer">▶ Ver canal no YouTube</a>
+        <a class="botao whatsapp" href="https://whatsapp.com/channel/0029VbDvJB58kyyQ8xdkEW1N" target="_blank" rel="noopener noreferrer">Seguir no WhatsApp</a>
+        <button id="instalar" class="botao instalar" hidden>Instalar app</button>
+      </div>
+    </section>
+    <section class="secao" id="novidades"><h2>Novidades do canal</h2><div id="lista-novidades"></div></section>
+    <section class="secao" id="comunidade"><h2>Faça parte da comunidade 💚</h2><p>Entre no canal do WhatsApp para acompanhar as atualizações.</p><a class="botao whatsapp" href="https://whatsapp.com/channel/0029VbDvJB58kyyQ8xdkEW1N" target="_blank" rel="noopener noreferrer">Abrir canal do WhatsApp</a></section>
+  </main>
+  <footer>© 2026 Universo Verade</footer>
+  <script>
+    const novidades = [{titulo:"Bem-vindo!",texto:"Este é o espaço para acompanhar as novidades do Universo Verade.",data:"Novidade de exemplo"}];
+    const lista = document.querySelector("#lista-novidades");
+    novidades.forEach((item) => {
+      const cartao = document.createElement("article"); cartao.className = "novidade";
+      const titulo = document.createElement("strong"); titulo.textContent = item.titulo;
+      const texto = document.createElement("p"); texto.textContent = item.texto;
+      const data = document.createElement("span"); data.className = "data"; data.textContent = item.data;
+      cartao.append(titulo,texto,data); lista.appendChild(cartao);
+    });
+    let eventoInstalacao; const botaoInstalar = document.querySelector("#instalar");
+    window.addEventListener("beforeinstallprompt", (evento) => { evento.preventDefault(); eventoInstalacao = evento; botaoInstalar.hidden = false; });
+    botaoInstalar.addEventListener("click", async () => {
+      if (!eventoInstalacao) return;
+      eventoInstalacao.prompt(); await eventoInstalacao.userChoice; eventoInstalacao = null; botaoInstalar.hidden = true;
+    });
+    if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
+  </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Universo Verade",
+  "short_name": "Verade",
+  "description": "Novidades e vídeos do canal Universo Verade",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fff9fc",
+  "theme_color": "#f5a6c8",
+  "icons": [
+    {
+      "src": "./logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
